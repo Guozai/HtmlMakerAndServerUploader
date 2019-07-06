@@ -88,7 +88,7 @@ public class FileConverterUI extends JFrame {
     }
 
     public void setFileLabel(String fileNameIn) {
-        fileLabel.setText(fileNameIn);
+        fileLabel.setText(fileNameIn + " is loaded.");
     }
 
     public void setFile(File fileIn) {
@@ -108,7 +108,7 @@ public class FileConverterUI extends JFrame {
             } else {
                 JOptionPane.showConfirmDialog(null,
                         "File loaded must be txt format!", "File Format Error",
-                        JOptionPane.OK_CANCEL_OPTION);
+                        JOptionPane.DEFAULT_OPTION);
             }
         }
     }
