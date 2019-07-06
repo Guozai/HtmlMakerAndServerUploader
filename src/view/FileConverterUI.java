@@ -207,6 +207,6 @@ public class FileConverterUI extends JFrame {
         writeFile(sb);
         JOptionPane.showConfirmDialog(null,
                 "File is successfully converted to " + fileNameOut + "!", "Convertion Successful",
-                JOptionPane.OK_CANCEL_OPTION);
+                JOptionPane.DEFAULT_OPTION);
     }
 }
