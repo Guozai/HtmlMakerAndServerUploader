@@ -1,6 +1,7 @@
 package controller;
 
-import view.DialogUpload;
+import model.FileUploader;
+import view.DialogSetting;
 import view.FileConverterUI;
 
 import javax.swing.*;
@@ -36,7 +37,15 @@ public class MenuListener implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    new DialogUpload(fcUI);
+                    new FileUploader(fcUI);
+                }
+            });
+        }
+        if (actionCommand.equals("Upload Settings")) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new DialogSetting(fcUI);
                 }
             });
         }

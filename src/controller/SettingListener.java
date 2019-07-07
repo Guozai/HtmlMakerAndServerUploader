@@ -1,20 +1,20 @@
 package controller;
 
-import model.FileUploader;
+import view.DialogSetting;
 import view.FileConverterUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UploadListener implements ActionListener {
+public class SettingListener implements ActionListener {
     private FileConverterUI fcUI;
 
-    public UploadListener(FileConverterUI fcUI) {
+    public SettingListener(FileConverterUI fcUI) {
         this.fcUI = fcUI;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new FileUploader(fcUI);
+        new DialogSetting(fcUI);
     }
 }
