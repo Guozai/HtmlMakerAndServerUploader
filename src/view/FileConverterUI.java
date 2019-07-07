@@ -14,7 +14,6 @@ public class FileConverterUI extends JFrame {
     private String fileName = null;
     private String fileNameOut = null;
     private String pemPath = "/Users/ypguo/Documents/bmc.pem";
-    private String osSelected = "Mac";
     private String serverPath = "ec2-18-191-248-245.us-east-2.compute.amazonaws.com";
 
     private final JMenuBar mb = new JMenuBar();
@@ -140,10 +139,6 @@ public class FileConverterUI extends JFrame {
     public String getPemPath() { return pemPath; }
 
     public void setPemPath(String pemPath) { this.pemPath = pemPath; }
-
-    public String getOSSelected() { return osSelected; }
-
-    public void setOSSelected(String osSelected) { this.osSelected = osSelected; }
 
     public String getServerPath() { return serverPath; }
 
@@ -276,7 +271,6 @@ public class FileConverterUI extends JFrame {
 
                 // read line by line
                 setPemPath(br.readLine());
-                setOSSelected(br.readLine());
                 setServerPath(br.readLine());
             } catch (IOException e) {
                 System.err.format("IOException: %s%n", e);

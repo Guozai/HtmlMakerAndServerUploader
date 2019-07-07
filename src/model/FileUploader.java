@@ -8,13 +8,11 @@ import java.io.*;
 public class FileUploader {
     private String fileNameOut;
     private String pemPath;
-    private String osSelected;
     private String serverPath;
 
     public FileUploader(FileConverterUI fcUI) {
         fileNameOut = fcUI.getFileNameOut();
         pemPath = fcUI.getPemPath();
-        osSelected = fcUI.getOSSelected();
         serverPath = fcUI.getServerPath();
         uploadFile();
     }
@@ -29,16 +27,10 @@ public class FileUploader {
 
         //Path path = FileSystems.getDefault().getPath(".").toAbsolutePath();
         //System.out.println(path);
-        Process pr;
 
         try {
-            if (osSelected.equals("Mac")) {
-                pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
-                        + " ubuntu@" + serverPath + ":/var/www/html");
-            } else {
-                pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
-                        + " " + serverPath + ":/var/www/html");
-            }
+            Process pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
+                    + " ubuntu@" + serverPath + ":/var/www/html");
 
             StringBuilder output = new StringBuilder();
 
