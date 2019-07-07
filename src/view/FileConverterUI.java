@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 public class FileConverterUI extends JFrame {
     private File fileIn = null;
@@ -20,18 +22,22 @@ public class FileConverterUI extends JFrame {
     private final JMenuItem[] fItems = {
             new JMenuItem("Load", KeyEvent.VK_L),
             new JMenuItem("Convert", KeyEvent.VK_C),
+            new JMenuItem("Upload", KeyEvent.VK_U),
             new JMenuItem("Exit", KeyEvent.VK_X)
     };
 
     private final JLabel fileLabel = new JLabel();
     private final JButton btnLoad = new JButton("Load Text File");
     private final JButton btnConvert = new JButton("Convert to HTML");
+    private final JButton btnUpload = new JButton("Upload to Server");
 
     private final JPanel centerPanel = new JPanel();
     private final JPanel converterPanel = new JPanel();
     private final JPanel filePanel = new JPanel();
     private final JPanel loadPanel = new JPanel();
     private final JPanel convertPanel = new JPanel();
+    private final JPanel uploadPanel = new JPanel();
+    private final JPanel uploadInnerPanel = new JPanel();
 
     private MenuListener ml = new MenuListener(this);
     private LoadListener ll = new LoadListener(this);
@@ -41,10 +47,15 @@ public class FileConverterUI extends JFrame {
 
         // add pull-down menu
         for (int i = 0; i < fItems.length; i++) {
-            //fItems[i].addActionListener();
-            f.add(fItems[i]);
+            fItems[i].addActionListener(ml);
         }
-        fItems[2].setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.ALT_MASK));
+        f.add(fItems[0]);
+        f.add(fItems[1]);
+        f.add(new JSeparator());
+        f.add(fItems[2]);
+        f.add(new JSeparator());
+        f.add(fItems[3]);
+        fItems[3].setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.ALT_MASK));
         f.setMnemonic(KeyEvent.VK_F);
         mb.add(f);
         setJMenuBar(mb);
@@ -69,8 +80,18 @@ public class FileConverterUI extends JFrame {
         converterPanel.add(filePanel);
         converterPanel.add(loadPanel);
         converterPanel.add(convertPanel);
+        uploadInnerPanel.setLayout(new BoxLayout(uploadInnerPanel, BoxLayout.X_AXIS));
+        uploadInnerPanel.setPreferredSize(new Dimension(200,70));
+        btnUpload.addActionListener(cl);
+        btnUpload.setHorizontalAlignment(SwingConstants.CENTER);
+        uploadInnerPanel.add(btnUpload);
+        uploadPanel.setBorder(BorderFactory.createTitledBorder("File Uploader"));
+        uploadPanel.setLayout(new BoxLayout(uploadPanel, BoxLayout.Y_AXIS));
+        uploadPanel.setPreferredSize(new Dimension(200, 70));
+        uploadPanel.add(uploadInnerPanel);
         centerPanel.setLayout(new FlowLayout());
         centerPanel.add(converterPanel);
+        centerPanel.add(uploadPanel);
         getContentPane().add(centerPanel, BorderLayout.CENTER);
     }
     public static void main(String[] args) { run(new FileConverterUI(), 400, 600); }
@@ -208,5 +229,9 @@ public class FileConverterUI extends JFrame {
         JOptionPane.showConfirmDialog(null,
                 "File is successfully converted to " + fileNameOut + "!", "Convertion Successful",
                 JOptionPane.DEFAULT_OPTION);
+    }
+
+    public String getFileNameOut() {
+        return fileNameOut;
     }
 }

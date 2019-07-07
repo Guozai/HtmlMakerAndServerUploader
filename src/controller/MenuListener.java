@@ -1,5 +1,6 @@
 package controller;
 
+import view.DialogUpload;
 import view.FileConverterUI;
 
 import javax.swing.*;
@@ -28,6 +29,14 @@ public class MenuListener implements ActionListener {
                 @Override
                 public void run() {
                     fcUI.convertFile();
+                }
+            });
+        }
+        if (actionCommand.equals("Upload")) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new DialogUpload(fcUI);
                 }
             });
         }
