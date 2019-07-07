@@ -15,7 +15,7 @@ public class FileConverterUI extends JFrame {
     private String fileNameOut = null;
     private String pemPath = "/Users/ypguo/Documents/bmc.pem";
     private String osSelected = "Mac";
-    private String serverPath = "ubuntu@ec2-18-191-248-245.us-east-2.compute.amazonaws.com";
+    private String serverPath = "ec2-18-191-248-245.us-east-2.compute.amazonaws.com";
 
     private final JMenuBar mb = new JMenuBar();
     private final JMenu f = new JMenu("File");

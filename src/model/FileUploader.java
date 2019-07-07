@@ -34,7 +34,7 @@ public class FileUploader {
         try {
             if (osSelected.equals("Mac")) {
                 pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
-                        + " " + serverPath + ":/var/www/html");
+                        + " ubuntu@" + serverPath + ":/var/www/html");
             } else {
                 pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
                         + " " + serverPath + ":/var/www/html");

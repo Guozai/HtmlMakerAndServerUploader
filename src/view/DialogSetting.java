@@ -53,6 +53,7 @@ public class DialogSetting extends JDialog {
                 if (fieldServer.getText().equals("")) {
                     serverPath = fcUI.getServerPath();
                 } else {
+                    serverPath = fieldServer.getText();
                     fcUI.setServerPath(serverPath);
                 }
                 saveConfig(pemPath, osSelected, serverPath);
