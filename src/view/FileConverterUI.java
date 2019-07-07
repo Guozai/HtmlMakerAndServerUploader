@@ -7,11 +7,15 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.nio.file.Paths;
 
 public class FileConverterUI extends JFrame {
     private File fileIn = null;
     private String fileName = null;
     private String fileNameOut = null;
+    private String pemPath = "/Users/ypguo/Documents/bmc.pem";
+    private String osSelected = "Mac";
+    private String serverPath = "ubuntu@ec2-18-191-248-245.us-east-2.compute.amazonaws.com";
 
     private final JMenuBar mb = new JMenuBar();
     private final JMenu f = new JMenu("File");
@@ -47,6 +51,7 @@ public class FileConverterUI extends JFrame {
     private SettingListener sl = new SettingListener(this);
 
     public FileConverterUI() {
+        loadConfig();
 
         // add pull-down menu
         for (int i = 0; i < fItems.length; i++) {
@@ -131,6 +136,18 @@ public class FileConverterUI extends JFrame {
     public void setFile(File fileIn) {
         this.fileIn = fileIn;
     }
+
+    public String getPemPath() { return pemPath; }
+
+    public void setPemPath(String pemPath) { this.pemPath = pemPath; }
+
+    public String getOSSelected() { return osSelected; }
+
+    public void setOSSelected(String osSelected) { this.osSelected = osSelected; }
+
+    public String getServerPath() { return serverPath; }
+
+    public void setServerPath(String serverPath) { this.serverPath = serverPath; }
 
     public void loadFile() {
         JFileChooser fileChooser = new JFileChooser();
@@ -249,5 +266,21 @@ public class FileConverterUI extends JFrame {
 
     public String getFileNameOut() {
         return fileNameOut;
+    }
+
+    private void loadConfig() {
+        String file = "config.txt";
+        if (Paths.get(file).toFile().isFile()) {
+            try (FileReader fr = new FileReader("config.txt")) {
+                BufferedReader br = new BufferedReader(fr);
+
+                // read line by line
+                setPemPath(br.readLine());
+                setOSSelected(br.readLine());
+                setServerPath(br.readLine());
+            } catch (IOException e) {
+                System.err.format("IOException: %s%n", e);
+            }
+        }
     }
 }

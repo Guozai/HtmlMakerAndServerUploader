@@ -3,15 +3,19 @@ package model;
 import view.FileConverterUI;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class FileUploader {
     private String fileNameOut;
+    private String pemPath;
+    private String osSelected;
+    private String serverPath;
 
     public FileUploader(FileConverterUI fcUI) {
         fileNameOut = fcUI.getFileNameOut();
+        pemPath = fcUI.getPemPath();
+        osSelected = fcUI.getOSSelected();
+        serverPath = fcUI.getServerPath();
         uploadFile();
     }
 
@@ -25,9 +29,16 @@ public class FileUploader {
 
         //Path path = FileSystems.getDefault().getPath(".").toAbsolutePath();
         //System.out.println(path);
+        Process pr;
 
         try {
-            Process pr = Runtime.getRuntime().exec("scp -i /Users/ypguo/Documents/bmc.pem " + fileNameOut + " ubuntu@ec2-18-191-248-245.us-east-2.compute.amazonaws.com:/var/www/html");
+            if (osSelected.equals("Mac")) {
+                pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
+                        + " " + serverPath + ":/var/www/html");
+            } else {
+                pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
+                        + " " + serverPath + ":/var/www/html");
+            }
 
             StringBuilder output = new StringBuilder();
 
