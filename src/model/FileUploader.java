@@ -30,7 +30,7 @@ public class FileUploader {
 
         try {
             Process pr = Runtime.getRuntime().exec("scp -i " + pemPath + " " + fileNameOut
-                    + " ubuntu@" + serverPath + ":/var/www/html");
+                    + " ubuntu@" + serverPath + ":/var/www/bmc2019.com/html/poems");
 
             StringBuilder output = new StringBuilder();
 

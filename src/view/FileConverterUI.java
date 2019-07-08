@@ -31,15 +31,19 @@ public class FileConverterUI extends JFrame {
     private final JButton btnConvert = new JButton("Convert to HTML");
     private final JButton btnUpload = new JButton("Upload to Server");
     private final JButton btnSetting = new JButton("Upload Settings");
+    private final JButton btnOpenHtml = new JButton("Open Html File");
+    private final JButton btnOpenAudio = new JButton("Open Audio File");
 
-    private final JPanel centerPanel = new JPanel();
+    private final JTabbedPane tabbedPane = new JTabbedPane();
     private final JPanel converterPanel = new JPanel();
     private final JPanel filePanel = new JPanel();
     private final JPanel loadPanel = new JPanel();
     private final JPanel convertPanel = new JPanel();
+    private final JPanel uploaderPanel = new JPanel();
     private final JPanel uploadPanel = new JPanel();
+    private final JPanel openHtmlPanel = new JPanel();
+    private final JPanel openAudioPanel = new JPanel();
     private final JPanel uploadInnerPanel = new JPanel();
-    private final JPanel blankPanel = new JPanel();
     private final JPanel settingPanel = new JPanel();
     private final JPanel settingInnerPanel = new JPanel();
 
@@ -58,8 +62,8 @@ public class FileConverterUI extends JFrame {
         }
         f.add(fItems[0]);
         f.add(fItems[1]);
-        f.add(fItems[2]);
         f.add(new JSeparator());
+        f.add(fItems[2]);
         f.add(fItems[3]);
         f.add(new JSeparator());
         f.add(fItems[4]);
@@ -82,7 +86,6 @@ public class FileConverterUI extends JFrame {
         btnConvert.addActionListener(cl);
         btnConvert.setHorizontalAlignment(SwingConstants.CENTER);
         convertPanel.add(btnConvert);
-        converterPanel.setBorder(BorderFactory.createTitledBorder("File Converter"));
         converterPanel.setLayout(new BoxLayout(converterPanel, BoxLayout.Y_AXIS));
         converterPanel.setPreferredSize(new Dimension(200, 150));
         converterPanel.add(filePanel);
@@ -97,7 +100,6 @@ public class FileConverterUI extends JFrame {
         uploadPanel.setLayout(new BoxLayout(uploadPanel, BoxLayout.Y_AXIS));
         uploadPanel.setPreferredSize(new Dimension(200, 70));
         uploadPanel.add(uploadInnerPanel);
-        blankPanel.setPreferredSize(new Dimension(200, 50));
         settingInnerPanel.setLayout(new BoxLayout(settingInnerPanel, BoxLayout.X_AXIS));
         settingInnerPanel.setPreferredSize(new Dimension(200,70));
         btnSetting.addActionListener(sl);
@@ -107,14 +109,15 @@ public class FileConverterUI extends JFrame {
         settingPanel.setLayout(new BoxLayout(settingPanel, BoxLayout.Y_AXIS));
         settingPanel.setPreferredSize(new Dimension(200, 70));
         settingPanel.add(settingInnerPanel);
-        centerPanel.setLayout(new FlowLayout());
-        centerPanel.add(converterPanel);
-        centerPanel.add(uploadPanel);
-        centerPanel.add(blankPanel);
-        centerPanel.add(settingPanel);
-        getContentPane().add(centerPanel, BorderLayout.CENTER);
+        uploaderPanel.setLayout(new BoxLayout(uploaderPanel, BoxLayout.Y_AXIS));
+        uploaderPanel.setPreferredSize(new Dimension(200, 150));
+        uploaderPanel.add(uploadPanel);
+        uploaderPanel.add(settingPanel);
+        tabbedPane.addTab("Html Converter", converterPanel);
+        tabbedPane.addTab("File Uploader", uploaderPanel);
+        getContentPane().add(tabbedPane, BorderLayout.CENTER);
     }
-    public static void main(String[] args) { run(new FileConverterUI(), 400, 600); }
+    public static void main(String[] args) { run(new FileConverterUI(), 300, 200); }
 
     public static void run(final JFrame f, final int width, final int height) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -146,7 +149,7 @@ public class FileConverterUI extends JFrame {
 
     public void loadFile() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
