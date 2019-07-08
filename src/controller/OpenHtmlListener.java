@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoadListener implements ActionListener {
+public class OpenHtmlListener implements ActionListener {
     private FileConverterUI fcUI;
-    public LoadListener (FileConverterUI fcUI) {
+    public OpenHtmlListener (FileConverterUI fcUI) {
         this.fcUI = fcUI;
     }
     @Override
@@ -16,7 +16,7 @@ public class LoadListener implements ActionListener {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                fcUI.loadFile(".txt");
+                fcUI.loadFile(".html");
             }
         });
     }

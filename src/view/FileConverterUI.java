@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 
 public class FileConverterUI extends JFrame {
     private File fileIn = null;
+    private File htmlIn = null;
+    private File mp3In = null;
     private String fileName = null;
     private String fileNameOut = null;
     private String pemPath = "/Users/ypguo/Documents/bmc.pem";
@@ -21,16 +23,19 @@ public class FileConverterUI extends JFrame {
     private final JMenuItem[] fItems = {
             new JMenuItem("Load", KeyEvent.VK_L),
             new JMenuItem("Convert", KeyEvent.VK_C),
+            new JMenuItem("Open Html", KeyEvent.VK_H),
+            new JMenuItem("Open Audio", KeyEvent.VK_A),
             new JMenuItem("Upload", KeyEvent.VK_U),
             new JMenuItem("Upload Settings", KeyEvent.VK_S),
             new JMenuItem("Exit", KeyEvent.VK_X)
     };
 
-    private final JLabel fileLabel = new JLabel();
+    private final JLabel fileLabel = new JLabel("Please load the text file then convert...");
     private final JButton btnLoad = new JButton("Load Text File");
     private final JButton btnConvert = new JButton("Convert to HTML");
     private final JButton btnUpload = new JButton("Upload to Server");
     private final JButton btnSetting = new JButton("Upload Settings");
+    private final JLabel openLabel = new JLabel("Please load file to upload...");
     private final JButton btnOpenHtml = new JButton("Open Html File");
     private final JButton btnOpenAudio = new JButton("Open Audio File");
 
@@ -41,6 +46,7 @@ public class FileConverterUI extends JFrame {
     private final JPanel convertPanel = new JPanel();
     private final JPanel uploaderPanel = new JPanel();
     private final JPanel uploadPanel = new JPanel();
+    private final JPanel openPanel = new JPanel();
     private final JPanel openHtmlPanel = new JPanel();
     private final JPanel openAudioPanel = new JPanel();
     private final JPanel uploadInnerPanel = new JPanel();
@@ -52,6 +58,8 @@ public class FileConverterUI extends JFrame {
     private ConvertListener cl = new ConvertListener(this);
     private UploadListener ul = new UploadListener(this);
     private SettingListener sl = new SettingListener(this);
+    private OpenHtmlListener ohl = new OpenHtmlListener(this);
+    private OpenAudioListener oal = new OpenAudioListener(this);
 
     public FileConverterUI() {
         loadConfig();
@@ -65,9 +73,11 @@ public class FileConverterUI extends JFrame {
         f.add(new JSeparator());
         f.add(fItems[2]);
         f.add(fItems[3]);
-        f.add(new JSeparator());
         f.add(fItems[4]);
-        fItems[4].setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.ALT_MASK));
+        f.add(fItems[5]);
+        f.add(new JSeparator());
+        f.add(fItems[6]);
+        fItems[6].setAccelerator(KeyStroke.getKeyStroke('X', InputEvent.ALT_MASK));
         f.setMnemonic(KeyEvent.VK_F);
         mb.add(f);
         setJMenuBar(mb);
@@ -91,14 +101,31 @@ public class FileConverterUI extends JFrame {
         converterPanel.add(filePanel);
         converterPanel.add(loadPanel);
         converterPanel.add(convertPanel);
+        openPanel.setLayout(new BoxLayout(openPanel, BoxLayout.X_AXIS));
+        openPanel.setPreferredSize(new Dimension(200, 50));
+        openLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        openPanel.add(openLabel);
+        openHtmlPanel.setLayout(new BoxLayout(openHtmlPanel, BoxLayout.X_AXIS));
+        openHtmlPanel.setPreferredSize(new Dimension(200,50));
+        btnOpenHtml.addActionListener(ohl);
+        btnOpenHtml.setHorizontalAlignment(SwingConstants.CENTER);
+        openHtmlPanel.add(btnOpenHtml);
+        openAudioPanel.setLayout(new BoxLayout(openAudioPanel, BoxLayout.X_AXIS));
+        openAudioPanel.setPreferredSize(new Dimension(200,50));
+        btnOpenAudio.addActionListener(oal);
+        btnOpenAudio.setHorizontalAlignment(SwingConstants.CENTER);
+        openAudioPanel.add(btnOpenAudio);
         uploadInnerPanel.setLayout(new BoxLayout(uploadInnerPanel, BoxLayout.X_AXIS));
-        uploadInnerPanel.setPreferredSize(new Dimension(200,70));
+        uploadInnerPanel.setPreferredSize(new Dimension(200,50));
         btnUpload.addActionListener(ul);
         btnUpload.setHorizontalAlignment(SwingConstants.CENTER);
         uploadInnerPanel.add(btnUpload);
         uploadPanel.setBorder(BorderFactory.createTitledBorder("File Uploader"));
         uploadPanel.setLayout(new BoxLayout(uploadPanel, BoxLayout.Y_AXIS));
         uploadPanel.setPreferredSize(new Dimension(200, 70));
+        uploadPanel.add(openPanel);
+        uploadPanel.add(openHtmlPanel);
+        uploadPanel.add(openAudioPanel);
         uploadPanel.add(uploadInnerPanel);
         settingInnerPanel.setLayout(new BoxLayout(settingInnerPanel, BoxLayout.X_AXIS));
         settingInnerPanel.setPreferredSize(new Dimension(200,70));
@@ -117,7 +144,7 @@ public class FileConverterUI extends JFrame {
         tabbedPane.addTab("File Uploader", uploaderPanel);
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
     }
-    public static void main(String[] args) { run(new FileConverterUI(), 300, 200); }
+    public static void main(String[] args) { run(new FileConverterUI(), 300, 400); }
 
     public static void run(final JFrame f, final int width, final int height) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -131,12 +158,38 @@ public class FileConverterUI extends JFrame {
         });
     }
 
-    public void setFileLabel(String fileNameIn) {
-        fileLabel.setText(fileNameIn + " is loaded.");
+    public void setFileLabel(String fileNameIn, String fileExtension) {
+        if (fileExtension.equals(".txt")) {
+            fileLabel.setText(fileNameIn + " is loaded.");
+        } else {
+            openLabel.setText(fileNameIn + " is loaded.");
+        }
     }
 
-    public void setFile(File fileIn) {
-        this.fileIn = fileIn;
+    public void setFile(File fileIn, String fileExtension) {
+        if (fileExtension.equals(".txt")) {
+            this.fileIn = fileIn;
+        } else if (fileExtension.equals(".html")) {
+            this.htmlIn = fileIn;
+        } else if (fileExtension.equals(".mp3")) {
+            this.mp3In = fileIn;
+        }
+    }
+
+    public String getHtmlName() {
+        if (htmlIn != null) {
+            return htmlIn.getName();
+        } else {
+            return null;
+        }
+    }
+
+    public String getMp3Name() {
+        if (mp3In != null) {
+            return mp3In.getName();
+        } else {
+            return null;
+        }
     }
 
     public String getPemPath() { return pemPath; }
@@ -147,16 +200,16 @@ public class FileConverterUI extends JFrame {
 
     public void setServerPath(String serverPath) { this.serverPath = serverPath; }
 
-    public void loadFile() {
+    public void loadFile(String fileExtenstion) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            if (selectedFile.getName().toLowerCase().endsWith(".txt")) {
-                this.setFileLabel(selectedFile.getName());
-                this.setFile(selectedFile);
+            if (selectedFile.getName().toLowerCase().endsWith(fileExtenstion)) {
+                this.setFileLabel(selectedFile.getName(), fileExtenstion);
+                this.setFile(selectedFile, fileExtenstion);
             } else {
                 JOptionPane.showConfirmDialog(null,
                         "File loaded must be txt format!", "File Format Error",
@@ -242,7 +295,7 @@ public class FileConverterUI extends JFrame {
 
     public void writeFile(StringBuilder sb) {
         try {
-            FileWriter writer = new FileWriter(new File(fileNameOut));
+            FileWriter writer = new FileWriter(new File("poems/" + fileNameOut));
             writer.append(sb);
             writer.flush();
             writer.close();

@@ -21,7 +21,7 @@ public class MenuListener implements ActionListener {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    fcUI.loadFile();
+                    fcUI.loadFile(".txt");
                 }
             });
         }
@@ -30,6 +30,22 @@ public class MenuListener implements ActionListener {
                 @Override
                 public void run() {
                     fcUI.convertFile();
+                }
+            });
+        }
+        if (actionCommand.equals("Open Html")) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    fcUI.loadFile(".html");
+                }
+            });
+        }
+        if (actionCommand.equals("Open Audio")) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    fcUI.loadFile(".mp3");
                 }
             });
         }
